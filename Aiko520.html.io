@@ -34,6 +34,10 @@
       margin-top: 10px;
       font-size: 16px;
       color: #444;
+      text-align: left;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
@@ -113,18 +117,19 @@
       quizDiv.innerHTML = "";
       let resultText = "";
       if (yesCount <= 3) {
-        resultText = "Все ок 👍";
+        resultText = "✅ Все ок! Продолжай в том же духе.";
       } else if (yesCount === 4) {
-        resultText = "Надо начать исправляться ⚠️";
+        resultText = "⚠️ Надо начать исправляться!";
       } else {
-        resultText = "Бей тревогу! 🚨";
+        resultText = "🚨 Бей тревогу! Пора менять привычки!";
       }
       resultDiv.innerText = resultText;
 
-      adviceDiv.innerHTML = userAnswers
+      const advices = userAnswers
         .filter(ans => ans.answer === 'yes')
-        .map(ans => `<div>✔️ ${ans.advice}</div>`)
+        .map(ans => `<div>✔️ ${ans.advice}</div>`) 
         .join('');
+      adviceDiv.innerHTML = `<h3>Рекомендации:</h3>${advices}`;
     }
 
     showQuestion();
