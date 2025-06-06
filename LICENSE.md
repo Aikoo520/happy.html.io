@@ -7,7 +7,7 @@
  <body>
   <h1>Уменьшаем кортизол гормон стресса</h1>
   <p>Тест</p>
-   <iframe src="quiz.html" width="480" height="720" class="quiz-frame">
+   <iframe src="quiz.html" width="480" height="720" class="quiz-frame"></iframe>
      <div class="wrapper">
    <main class="main">
        <div class="quiz__head">
@@ -27,10 +27,9 @@
                <div class="footer__content" id="pages">0 / 0</div>
            </div>
        </div>
-      </iframe>
+      
    </main>
 </div>
-body, html
 {
    width: 100%;
    height: 100%;
