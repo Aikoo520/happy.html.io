@@ -1,125 +1,133 @@
 <!DOCTYPE html>
-<html>
- <head>
-  <meta charset="utf-8">
-  <title>Меньше стресса!</title>
- </head>
- <body>
-  <h1>Уменьшаем кортизол гормон стресса</h1>
-  <p>Тест</p>
-   <iframe src="quiz.html" width="480" height="720" class="quiz-frame"></iframe>
-     <div class="wrapper">
-   <main class="main">
-       <div class="quiz__head">
-           <div class="head__content" id="head">Вы пьете больше двух чашек кофе в день?</div>
-       </div>
-       <div class="quiz__body">
-           <div class="buttons">
-               <div class="buttons__content" id="buttons">
-                   <button class="button">Default button</button><br>
-                   <button class="button button_wrong">Да</button><br>
-                   <button class="button button_correct">Нет</button><br>
-                   <button class="button button_passive">Я не пью</button><br>
-               </div>
-           </div>
- 
-           <div class="quiz__footer">
-               <div class="footer__content" id="pages">0 / 0</div>
-           </div>
-       </div>
-      
-   </main>
-</div>
-{
-   width: 100%;
-   height: 100%;
-   margin: 0;
-   padding: 0;
-   overflow: hidden;
-   font-size: 16px;
-   font-family: helvetica, arial;
-   background: #f9f9f9;
-   color: #111;
-}
- 
-.wrapper
-{
-   width: 100%;
-   height: 100%;
-   display: table;
-}
- 
-.main
-{
-   display: table-cell;
-   vertical-align: middle;
-   text-align: center;
-}
- 
-.quiz-frame
-{
-   border: 0;
-   box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
- 
-.quiz__head
-{
-   font-size: 20pt;
-   margin: 10px;
-   margin-bottom: 50px;
-}
- 
-.head__content
-{
-   padding: 5px;
-}
- 
-.quiz__body
-{
-   margin: 10px;
-}
- 
-.quiz__footer
-{
-   position: absolute;
-   bottom: 0;
-   display: block;
-   width: 100%;
-}
- 
-.footer__content
-{
-   padding: 5px;
-}
- 
-.button
-{
-   border: 0;
-   border-radius: 10px;
-   background: #6477EB;
-   color: #fff;
-   padding: 10px 25px;
-   width: 70%;
-   font-size: 15pt;
-   display: block;
-   margin: 2px auto;
-   cursor: pointer;
-}
- 
-.button_wrong
-{
-   background: #EB6465;
-}
- 
-.button_correct
-{
-   background: #5EB97D;
-}
- 
-.button_passive
-{
-   background: #B3B3B3;
-}
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Здоровье: тест-привычки</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      text-align: center;
+      padding: 20px;
+    }
+    .question {
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #6477EB;
+      color: white;
+    }
+    #result {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 30px;
+    }
+    .advice {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
 
- </body>
+  <h1>Проверь свои привычки</h1>
+
+  <div id="quiz"></div>
+  <div id="result"></div>
+  <div class="advice" id="advice"></div>
+
+  <script>
+    const questions = [
+      {
+        text: "Вы пьете больше двух чашек кофе в день?",
+        advice: "Надо пить меньше и утро начинать с завтрака, а после — кофе"
+      },
+      {
+        text: "Вы добавляете к чаю сахар?",
+        advice: "Старайтесь не добавлять сахар"
+      },
+      {
+        text: "Вы кушаете капусту, огурцы и помидоры без уксуса или ферментированные продукты?",
+        advice: "Молодец!"
+      },
+      {
+        text: "Вы завтракаете?",
+        advice: "Класс!"
+      },
+      {
+        text: "Вы спите меньше 6 часов?",
+        advice: "Нужно спать хотя бы 6 часов"
+      },
+      {
+        text: "Вы не ходите дома босиком?",
+        advice: "Знай: ходьба босиком закаляет тело"
+      },
+      {
+        text: "У вас нет перерывов во время работы?",
+        advice: "Надо делать перерыв 10–15 минут"
+      },
+      {
+        text: "Вы не занимаетесь спортом?",
+        advice: "Надо хотя бы один раз в неделю заниматься спортом"
+      }
+    ];
+
+    let current = 0;
+    let yesCount = 0;
+    let userAnswers = [];
+
+    const quizDiv = document.getElementById("quiz");
+    const resultDiv = document.getElementById("result");
+    const adviceDiv = document.getElementById("advice");
+
+    function showQuestion() {
+      if (current >= questions.length) {
+        showResult();
+        return;
+      }
+      const q = questions[current];
+      quizDiv.innerHTML = `
+        <div class="question">${q.text}</div>
+        <button onclick="answer('yes')">Да</button>
+        <button onclick="answer('no')">Нет</button>
+      `;
+    }
+
+    function answer(ans) {
+      if (ans === 'yes') yesCount++;
+      userAnswers.push({ answer: ans, advice: questions[current].advice });
+      current++;
+      showQuestion();
+    }
+
+    function showResult() {
+      quizDiv.innerHTML = "";
+      let resultText = "";
+      if (yesCount <= 3) {
+        resultText = "Все ок 👍";
+      } else if (yesCount === 4) {
+        resultText = "Надо начать исправляться ⚠️";
+      } else {
+        resultText = "Бей тревогу! 🚨";
+      }
+      resultDiv.innerText = resultText;
+
+      adviceDiv.innerHTML = userAnswers
+        .filter(ans => ans.answer === 'yes')
+        .map(ans => `<div>✔️ ${ans.advice}</div>`)
+        .join('');
+    }
+
+    showQuestion();
+  </script>
+</body>
 </html>
